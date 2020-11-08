@@ -194,7 +194,7 @@ public Vector getList(ArrayList<String> attributes, ArrayList<String> tables){
         }
         return data;
     }
-	public void Delete(String Ssn) {
+	public void Delete(ArrayList<String> ssn) {
 		
 		try {
             Class.forName("com.mysql.cj.jdbc.Driver"); //JDBC 드라이버 연결
@@ -205,27 +205,30 @@ public Vector getList(ArrayList<String> attributes, ArrayList<String> tables){
        
         Connection con = null;  
         try {
+        	
         	con = DriverManager.getConnection(dburl, dbUser, dbpasswd);
-	    	  String del="delete from EMPLOYEE where ssn = ?";
-	    	  PreparedStatement p2=con.prepareStatement(del);
-	          p2.clearParameters();
-	          p2.setString(1, Ssn);
-	          int delr=p2.executeUpdate();
-		      if( delr == 0 ){
-		          System.out.println("삭제 할  내용을 찾을 수 없습니다.");
-		      }else{
-		          System.out.println("삭제 되었습니다.");
-		          List.ShowTable();
-		      }
+        	System.out.println(ssn.size());
+        	for(int i = 0; i < ssn.size(); i++) {
+        		String del="delete from EMPLOYEE where ssn = ?";
+  	    	  PreparedStatement p2=con.prepareStatement(del);
+  	          p2.clearParameters();
+  	          p2.setString(1, ssn.get(i));
+  	          int delr=p2.executeUpdate();
+  		      if( delr == 0 ){
+  		          System.out.println("삭제 할  내용을 찾을 수 없습니다.");
+  		      }else{
+  		          System.out.println("삭제 되었습니다.");
+  		      }
+                }
+
+	    	  
 	    	  
         } catch (SQLException e) {
 			e.printStackTrace();
 		}
 	    
 	}
-public void Update(String Ssn, String Salary) {
-		System.out.println(Salary);
-		System.out.println(Ssn);
+public void Update(ArrayList<String> ssn, String Salary) {
 		try {
             Class.forName("com.mysql.cj.jdbc.Driver"); //JDBC 드라이버 연결
         } catch (ClassNotFoundException e) {
@@ -236,18 +239,24 @@ public void Update(String Ssn, String Salary) {
         Connection con = null;  
         try {
         	con = DriverManager.getConnection(dburl, dbUser, dbpasswd);
-            String update="update EMPLOYEE set salary = ? where ssn = ?";
-            PreparedStatement p3=con.prepareStatement(update);
-            p3.clearParameters();
-            p3.setString(1, Salary);
-            p3.setString(2, Ssn);
-            int up=p3.executeUpdate();
-            if( up > 0 ){
-                System.out.println("갱신");
-                List.ShowTable();
-            }else{
-                System.out.println("갱신 불가");
-            }
+        	System.out.println(ssn.size());
+        	for(int i = 0; i < ssn.size(); i++) {
+        		String update="update EMPLOYEE set salary = ? where ssn = ?";
+                PreparedStatement p3=con.prepareStatement(update);
+                p3.clearParameters();
+                p3.setString(1, Salary);
+                p3.setString(2, ssn.get(i));
+                int up=p3.executeUpdate();
+                if( up > 0 ){
+                    System.out.println("갱신");
+                    System.out.println(i);
+                }else{
+                    System.out.println("갱신 불가");
+                }
+
+				
+			}
+            
 
  
         } catch (SQLException e) {

@@ -87,6 +87,8 @@ public class List extends JFrame{
 	public static void main(String[] args) throws SQLException {
 		
 		
+		
+		
 		// Frame 생성 및 세팅
 		JFrame mainFrame = new JFrame();
 		mainFrame.setTitle("Informational Retrieval System");
@@ -152,28 +154,18 @@ public class List extends JFrame{
 		
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent a) { 
-				
-				for(int i = 0; i < selected_ssn.size(); i++) {
-					Dao.Delete(selected_ssn.get(i));
-					ShowTable();
-					mainFrame.add(sPane);
-					System.out.println(i);
-					}
+				Dao.Delete(selected_ssn);
+				ShowTable();
+				mainFrame.add(sPane);
 			}
 		});
 		
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent a) { 
 					if(!tfSalary.getText().isEmpty()) {
-						System.out.println(selected_ssn.size());
-						for(int i = 0; i < selected_ssn.size(); i++) {
-							System.out.println(selected_ssn.get(i));
-							Dao.Update(selected_ssn.get(i), tfSalary.getText());
-							ShowTable();
-							mainFrame.add(sPane);
-							System.out.println(i);
-							
-						}
+						Dao.Update(selected_ssn, tfSalary.getText());
+						ShowTable();
+						mainFrame.add(sPane);
 					}
 			}
 		});
@@ -192,7 +184,6 @@ public class List extends JFrame{
 	}
 	public static void ShowTable() {
 		
-	     	
 		lbSelected.setText("select : ");
 		selectedname.clear();
 		selected_ssn.clear();
@@ -259,10 +250,11 @@ public class List extends JFrame{
 	     sPane.setBounds(0, 50, 1200, 200);
 		
 	     System.out.println("v="+v);
-	     //cols = getColumn();
+	     
 	     DefaultTableCellRenderer renderer = new MyDefaultTableCellRenderer();
-			table.getColumn("select").setCellRenderer(renderer);
-			table.getColumn("select").setPreferredWidth(15);
+	     table.getColumn("select").setCellRenderer(renderer);
+	     table.getColumn("select").setPreferredWidth(15);
+	     
 		
 	}
 
