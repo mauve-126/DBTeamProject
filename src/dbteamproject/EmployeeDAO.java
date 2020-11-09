@@ -8,21 +8,21 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 public class EmployeeDAO {
-	private static String dburl = "jdbc:mysql://localhost:3306/mydb?serverTimezone=UTC";
+	private static String dburl = "jdbc:mysql://localhost:3306/dbclass?serverTimezone=UTC";
 	private static String dbUser = "root";
-	private static String dbpasswd = "tracer85x1005@";
+	private static String dbpasswd = "andrew3876";
 	
 	public ArrayList<String> department() {
 		ArrayList<String> department = new ArrayList<String>();
 		department.add("all");
 		try {
-            Class.forName("com.mysql.cj.jdbc.Driver"); //JDBC 드라이버 연결
+            Class.forName("com.mysql.cj.jdbc.Driver"); //JDBC �뱶�씪�씠踰� �뿰寃�
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-		Connection con = null;       //연결
-        PreparedStatement ps = null; //명령
-        ResultSet rs = null;         //결과
+		Connection con = null;       //�뿰寃�
+        PreparedStatement ps = null; //紐낅졊
+        ResultSet rs = null;         //寃곌낵
         
 
         try {
@@ -48,16 +48,16 @@ public class EmployeeDAO {
 public Vector getList(ArrayList<String> attributes, ArrayList<String> tables){
 		
 		try {
-            Class.forName("com.mysql.cj.jdbc.Driver"); //JDBC 드라이버 연결
+            Class.forName("com.mysql.cj.jdbc.Driver"); //JDBC �뱶�씪�씠踰� �뿰寃�
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 	       
-        Vector data = new Vector();  //Jtable에 값을 쉽게 넣는 방법 1. 2차원배열   2. Vector 에 vector추가
+        Vector data = new Vector();  //Jtable�뿉 媛믪쓣 �돺寃� �꽔�뒗 諛⑸쾿 1. 2李⑥썝諛곗뿴   2. Vector �뿉 vector異붽�
        
-        Connection con = null;       //연결
-        PreparedStatement ps = null; //명령
-        ResultSet rs = null;         //결과
+        Connection con = null;       //�뿰寃�
+        PreparedStatement ps = null; //紐낅졊
+        ResultSet rs = null;         //寃곌낵
        
         try{
         	
@@ -124,16 +124,16 @@ public Vector getList(ArrayList<String> attributes, ArrayList<String> tables){
 	public Vector getMemberList(){
 		
 		try {
-            Class.forName("com.mysql.cj.jdbc.Driver"); //JDBC 드라이버 연결
+            Class.forName("com.mysql.cj.jdbc.Driver"); //JDBC �뱶�씪�씠踰� �뿰寃�
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 	       
-        Vector data = new Vector();  //Jtable에 값을 쉽게 넣는 방법 1. 2차원배열   2. Vector 에 vector추가
+        Vector data = new Vector();  //Jtable�뿉 媛믪쓣 �돺寃� �꽔�뒗 諛⑸쾿 1. 2李⑥썝諛곗뿴   2. Vector �뿉 vector異붽�
        
-        Connection con = null;       //연결
-        PreparedStatement ps = null; //명령
-        ResultSet rs = null;         //결과
+        Connection con = null;       //�뿰寃�
+        PreparedStatement ps = null; //紐낅졊
+        ResultSet rs = null;         //寃곌낵
        
         try{
         	
@@ -197,7 +197,7 @@ public Vector getList(ArrayList<String> attributes, ArrayList<String> tables){
 	public void Delete(ArrayList<String> ssn) {
 		
 		try {
-            Class.forName("com.mysql.cj.jdbc.Driver"); //JDBC 드라이버 연결
+            Class.forName("com.mysql.cj.jdbc.Driver"); //JDBC �뱶�씪�씠踰� �뿰寃�
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -215,9 +215,9 @@ public Vector getList(ArrayList<String> attributes, ArrayList<String> tables){
   	          p2.setString(1, ssn.get(i));
   	          int delr=p2.executeUpdate();
   		      if( delr == 0 ){
-  		          System.out.println("삭제 할  내용을 찾을 수 없습니다.");
+  		          System.out.println("�궘�젣 �븷  �궡�슜�쓣 李얠쓣 �닔 �뾾�뒿�땲�떎.");
   		      }else{
-  		          System.out.println("삭제 되었습니다.");
+  		          System.out.println("�궘�젣 �릺�뿀�뒿�땲�떎.");
   		      }
                 }
 
@@ -230,7 +230,7 @@ public Vector getList(ArrayList<String> attributes, ArrayList<String> tables){
 	}
 public void Update(ArrayList<String> ssn, String Salary) {
 		try {
-            Class.forName("com.mysql.cj.jdbc.Driver"); //JDBC 드라이버 연결
+            Class.forName("com.mysql.cj.jdbc.Driver"); //JDBC �뱶�씪�씠踰� �뿰寃�
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -248,10 +248,10 @@ public void Update(ArrayList<String> ssn, String Salary) {
                 p3.setString(2, ssn.get(i));
                 int up=p3.executeUpdate();
                 if( up > 0 ){
-                    System.out.println("갱신");
+                    System.out.println("媛깆떊");
                     System.out.println(i);
                 }else{
-                    System.out.println("갱신 불가");
+                    System.out.println("媛깆떊 遺덇�");
                 }
 
 				

@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -28,6 +29,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+
+import dbteamproject.List.MyDefaultTableCellRenderer;
 
 
 public class List extends JFrame{
@@ -52,7 +55,8 @@ public class List extends JFrame{
 	private static JCheckBox chkBoxSalary = new JCheckBox("SALARY", true);
 	private static JCheckBox chkBoxSuperName = new JCheckBox("SUPERVISOR", true);
 	private static JCheckBox chkBoxDname = new JCheckBox("DNAME", true);
-	private static JButton btnSearch = new JButton("검색");
+	private static JButton btnSearch = new JButton("寃��깋");
+	private static JButton btnSort = new JButton("sort");
 	
 //	private static DefaultTableModel defaultTableModel;
 //	private static JTable table;
@@ -90,14 +94,14 @@ public class List extends JFrame{
 		
 		
 		
-		// Frame 생성 및 세팅
+		// Frame �깮�꽦 諛� �꽭�똿
 		//JFrame mainFrame = new JFrame();
 		mainFrame.setTitle("Informational Retrieval System");
 		mainFrame.setSize(1200, 380);
 		mainFrame.setLayout(null);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		// 상단 패널 생성
+		// �긽�떒 �뙣�꼸 �깮�꽦
 		JPanel topPanel = new JPanel();
 		topPanel.setBounds(0, 0, 1200, 40);
 		EmployeeDAO Dao = new EmployeeDAO();
@@ -116,13 +120,14 @@ public class List extends JFrame{
 		topPanel.add(chkBoxSuperName);
 		topPanel.add(chkBoxDname);
 		topPanel.add(btnSearch);
+		topPanel.add(btnSort);
 		
 		mainFrame.add(topPanel);
 		
 		
 
 		
-		// 하단 패널 생성
+		// �븯�떒 �뙣�꼸 �깮�꽦
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(null);
 		bottomPanel.setBounds(0, 260, 1200, 100);
@@ -160,7 +165,14 @@ public class List extends JFrame{
 				ShowTable();
 			}
 		});
-		
+		btnSort.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				boolean sortBtnClicked=true;
+				ShowTable(sortBtnClicked);
+			}
+		});
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent a) { 
 					if(!tfSalary.getText().isEmpty()) {
@@ -172,7 +184,7 @@ public class List extends JFrame{
 			}
 		});
 				
-		// 중앙 데이터뷰 생성		
+		// 以묒븰 �뜲�씠�꽣酉� �깮�꽦		
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent a) {
 				mainFrame.remove(sPane);
@@ -188,6 +200,7 @@ public class List extends JFrame{
 	public static void ShowTable() {
 		
 		lbSelected.setText("select : ");
+		lbCount.setText("count :");
 		selectedname.clear();
 		selected_ssn.clear();
 		ArrayList<String> tableHeader = new ArrayList<String>();
@@ -253,13 +266,98 @@ public class List extends JFrame{
 	     sPane.setBounds(0, 50, 1200, 200);
 		
 	     System.out.println("v="+v);
-	     
+
+		    lbCount.setText(String.valueOf(v.size())); 
 	     DefaultTableCellRenderer renderer = new MyDefaultTableCellRenderer();
 	     table.getColumn("select").setCellRenderer(renderer);
 	     table.getColumn("select").setPreferredWidth(15);
 	     mainFrame.add(sPane);
 	     
 		
+	}
+
+	public static void ShowTable(boolean sortBtnClicked) {
+		lbSelected.setText("select : ");
+		lbCount.setText("count :");
+		selectedname.clear();
+		selected_ssn.clear();
+		ArrayList<String> tableHeader = new ArrayList<String>();
+		ArrayList<String> tableFilter = new ArrayList<String>();
+		
+		if(chkBoxName.isSelected()) {
+			tableHeader.add(chkBoxName.getText());
+			tableFilter.add("E.Fname");
+			tableFilter.add("E.Minit");
+			tableFilter.add("E.Lname");
+		}
+		if(chkBoxSsn.isSelected()) {
+			tableHeader.add(chkBoxSsn.getText());
+			tableFilter.add("E.Ssn");
+		}
+		if(chkBoxBdate.isSelected()) {
+			tableHeader.add(chkBoxBdate.getText());	
+			tableFilter.add("E.Bdate");
+		}
+		if(chkBoxAddress.isSelected()) {
+			tableHeader.add(chkBoxAddress.getText());		
+			tableFilter.add("E.Address");
+		}
+		if(chkBoxSex.isSelected()) {
+			tableHeader.add(chkBoxSex.getText());		
+			tableFilter.add("E.Sex");
+		}
+		if(chkBoxSalary.isSelected()) {
+			tableHeader.add(chkBoxSalary.getText());	
+			tableFilter.add("E.Salary");
+		}
+		if(chkBoxSuperName.isSelected()) {
+			tableHeader.add(chkBoxSuperName.getText());		
+			tableFilter.add("S.Fname");
+			tableFilter.add("S.Minit");
+			tableFilter.add("S.Lname");
+		}
+		if(chkBoxDname.isSelected()) {
+			tableHeader.add(chkBoxDname.getText());		
+			tableFilter.add("Dname");
+		}
+		
+		Vector col = new Vector();
+		ArrayList<String> tables = new ArrayList<String>();
+		if(cmbDepartment.getSelectedIndex() != 0) {
+			tables.add(cmbDepartment.getSelectedItem().toString());
+		}else {
+			tables.add(null);
+		}
+		for (int i = 0; i<tableHeader.size(); i++) {
+  		  String head = tableHeader.get(i);
+      	  col.add(head);
+      	  }
+		col.add("select");
+		
+		EmployeeDAO dao = new EmployeeDAO();
+	     //v = dao.getMemberList();
+		v = dao.getList(tableHeader,tables);
+		for(int i=0;i<v.size();i++) {
+			System.out.println(v.get(i));
+		}
+		try {
+			if(sortBtnClicked) {
+				Collections.sort(v,new EmployeeComparator(0));
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		defaultTableModel = new DefaultTableModel(v, col);
+	    table = new JTable(defaultTableModel);
+	    sPane = new JScrollPane(table);
+	    sPane.setBounds(0, 50, 1200, 200);
+	    lbCount.setText(String.valueOf(v.size())); 
+	    System.out.println("v="+v);
+	     
+	    DefaultTableCellRenderer renderer = new MyDefaultTableCellRenderer();
+	    table.getColumn("select").setCellRenderer(renderer);
+	    table.getColumn("select").setPreferredWidth(15);
+	    mainFrame.add(sPane);
 	}
 
 }
