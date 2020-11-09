@@ -1,8 +1,7 @@
 package dbteamproject;
 import java.util.ArrayList;
-import java.util.Objects;
 
-public class EmployeeDTO implements Comparable<EmployeeDTO>{
+public class EmployeeDTO {
 	private String Fname;
 	private String Minit;
 	private String Lname;
@@ -104,19 +103,4 @@ public class EmployeeDTO implements Comparable<EmployeeDTO>{
 		Dno = dno;
 	}
 
-	@Override
-	public int compareTo(EmployeeDTO anotherEmployee) {
-		// TODO Auto-generated method stub
-		Integer nowSalary = Integer.parseInt(this.getSalary());
-		Integer anotherWorkerSalary = Integer.parseInt(anotherEmployee.getSalary());
-		if(nowSalary<anotherWorkerSalary) {
-			return -1;
-		}
-		else if(nowSalary>anotherWorkerSalary) {
-			return 1;
-		}
-		else {
-			return 0;
-		}
-	}
 }
