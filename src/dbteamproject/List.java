@@ -35,6 +35,7 @@ public class List extends JFrame{
     static Vector v;  
     static Vector cols;
 	public static JLabel lbCount, lbSelected;
+	public static JFrame mainFrame = new JFrame();
 	public static ArrayList<String> selected_ssn = new ArrayList<String>();
 	public static ArrayList<String> selectedname = new ArrayList<String>();
 	public static ArrayList<Integer> selected_row = new ArrayList<Integer>();
@@ -53,9 +54,12 @@ public class List extends JFrame{
 	private static JCheckBox chkBoxDname = new JCheckBox("DNAME", true);
 	private static JButton btnSearch = new JButton("검색");
 	
-	private static DefaultTableModel defaultTableModel;
-	private static JTable table;
-	private static JScrollPane sPane;
+//	private static DefaultTableModel defaultTableModel;
+//	private static JTable table;
+//	private static JScrollPane sPane;
+	private static DefaultTableModel defaultTableModel = new DefaultTableModel();
+	private static JTable table = new JTable(defaultTableModel);
+	private static JScrollPane sPane = new JScrollPane(table);
 	
 	static class MyDefaultTableCellRenderer extends DefaultTableCellRenderer {
 		@Override
@@ -63,8 +67,6 @@ public class List extends JFrame{
 			JCheckBox chkBox = new JCheckBox();
 			chkBox.setSelected(isSelected);
 			chkBox.setHorizontalAlignment(JCheckBox.CENTER);
-			
-		
 			if(chkBox.isSelected()) {
 				String selectedssn = (((Vector) v.get(row)).get(1)).toString();
 				String selected_name = (((Vector) v.get(row)).get(0)).toString();
@@ -74,7 +76,6 @@ public class List extends JFrame{
 					selected_ssn.add(selectedssn);
 					selectedname.add(selected_name);
 				}
-
 				lbSelected.setText("select : "+selectedname.toString());
 				System.out.println("selected_ssn :: " + selected_ssn.toString());
 			}
@@ -90,7 +91,7 @@ public class List extends JFrame{
 		
 		
 		// Frame 생성 및 세팅
-		JFrame mainFrame = new JFrame();
+		//JFrame mainFrame = new JFrame();
 		mainFrame.setTitle("Informational Retrieval System");
 		mainFrame.setSize(1200, 380);
 		mainFrame.setLayout(null);
@@ -153,19 +154,20 @@ public class List extends JFrame{
 		mainFrame.add(bottomPanel);
 		
 		btnDelete.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent a) { 
+			public void actionPerformed(ActionEvent a) {
+				mainFrame.remove(sPane);
 				Dao.Delete(selected_ssn);
 				ShowTable();
-				mainFrame.add(sPane);
 			}
 		});
 		
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent a) { 
 					if(!tfSalary.getText().isEmpty()) {
+						mainFrame.remove(sPane);
 						Dao.Update(selected_ssn, tfSalary.getText());
 						ShowTable();
-						mainFrame.add(sPane);
+						//mainFrame.add(sPane);
 					}
 			}
 		});
@@ -173,8 +175,9 @@ public class List extends JFrame{
 		// 중앙 데이터뷰 생성		
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent a) {
+				mainFrame.remove(sPane);
 				ShowTable();
-				mainFrame.add(sPane);
+				//mainFrame.add(sPane);
 			}
 			
 		});		
@@ -254,6 +257,7 @@ public class List extends JFrame{
 	     DefaultTableCellRenderer renderer = new MyDefaultTableCellRenderer();
 	     table.getColumn("select").setCellRenderer(renderer);
 	     table.getColumn("select").setPreferredWidth(15);
+	     mainFrame.add(sPane);
 	     
 		
 	}
