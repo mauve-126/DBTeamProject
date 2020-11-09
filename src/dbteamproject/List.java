@@ -29,12 +29,14 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import dbteamproject.List.MyDefaultTableCellRenderer;
+
 
 public class List extends JFrame{
 	
-    static Vector v;  
+	static Vector v;  
     static Vector cols;
-	public static JLabel lbCount, lbSelected;
+	public static JLabel lbSelected;
 	public static JFrame mainFrame = new JFrame();
 	public static ArrayList<String> selected_ssn = new ArrayList<String>();
 	public static ArrayList<String> selectedname = new ArrayList<String>();
@@ -54,9 +56,6 @@ public class List extends JFrame{
 	private static JCheckBox chkBoxDname = new JCheckBox("DNAME", true);
 	private static JButton btnSearch = new JButton("검색");
 	
-//	private static DefaultTableModel defaultTableModel;
-//	private static JTable table;
-//	private static JScrollPane sPane;
 	private static DefaultTableModel defaultTableModel = new DefaultTableModel();
 	private static JTable table = new JTable(defaultTableModel);
 	private static JScrollPane sPane = new JScrollPane(table);
@@ -87,11 +86,7 @@ public class List extends JFrame{
 	
 	public static void main(String[] args) throws SQLException {
 		
-		
-		
-		
-		// Frame 생성 및 세팅
-		//JFrame mainFrame = new JFrame();
+		//메인 프레임 생성
 		mainFrame.setTitle("Informational Retrieval System");
 		mainFrame.setSize(1200, 380);
 		mainFrame.setLayout(null);
@@ -119,16 +114,12 @@ public class List extends JFrame{
 		
 		mainFrame.add(topPanel);
 		
-		
-
-		
 		// 하단 패널 생성
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(null);
 		bottomPanel.setBounds(0, 260, 1200, 100);
 		
-		lbCount = new JLabel("Employee Count : ");
-		lbCount.setFont(new Font("Dialog", Font.BOLD, 12));
+		
 		lbSelected = new JLabel("Selected Employee : ");
 		lbSelected.setFont(new Font("Dialog", Font.BOLD, 14));
 		JLabel lbSalary = new JLabel("new salary : ");
@@ -137,14 +128,13 @@ public class List extends JFrame{
 		JButton btnUpdate = new JButton("UPDATE");
 		JButton btnDelete = new JButton("DELETE");
 		
-		bottomPanel.add(lbCount);
+
 		bottomPanel.add(lbSelected);
 		bottomPanel.add(lbSalary);
 		bottomPanel.add(tfSalary);
 		bottomPanel.add(btnUpdate);
 		bottomPanel.add(btnDelete);
-		
-		lbCount.setBounds(5, 5, 1200, 20);
+
 		lbSelected.setBounds(5, 25, 1200, 20);
 		lbSalary.setBounds(5, 50, 100, 20);
 		tfSalary.setBounds(90, 50, 100, 20);
@@ -167,7 +157,6 @@ public class List extends JFrame{
 						mainFrame.remove(sPane);
 						Dao.Update(selected_ssn, tfSalary.getText());
 						ShowTable();
-						//mainFrame.add(sPane);
 					}
 			}
 		});
@@ -177,7 +166,6 @@ public class List extends JFrame{
 			public void actionPerformed(ActionEvent a) {
 				mainFrame.remove(sPane);
 				ShowTable();
-				//mainFrame.add(sPane);
 			}
 			
 		});		
@@ -191,43 +179,30 @@ public class List extends JFrame{
 		selectedname.clear();
 		selected_ssn.clear();
 		ArrayList<String> tableHeader = new ArrayList<String>();
-		ArrayList<String> tableFilter = new ArrayList<String>();
 		
 		if(chkBoxName.isSelected()) {
 			tableHeader.add(chkBoxName.getText());
-			tableFilter.add("E.Fname");
-			tableFilter.add("E.Minit");
-			tableFilter.add("E.Lname");
 		}
 		if(chkBoxSsn.isSelected()) {
 			tableHeader.add(chkBoxSsn.getText());
-			tableFilter.add("E.Ssn");
 		}
 		if(chkBoxBdate.isSelected()) {
 			tableHeader.add(chkBoxBdate.getText());	
-			tableFilter.add("E.Bdate");
 		}
 		if(chkBoxAddress.isSelected()) {
 			tableHeader.add(chkBoxAddress.getText());		
-			tableFilter.add("E.Address");
 		}
 		if(chkBoxSex.isSelected()) {
 			tableHeader.add(chkBoxSex.getText());		
-			tableFilter.add("E.Sex");
 		}
 		if(chkBoxSalary.isSelected()) {
 			tableHeader.add(chkBoxSalary.getText());	
-			tableFilter.add("E.Salary");
 		}
 		if(chkBoxSuperName.isSelected()) {
 			tableHeader.add(chkBoxSuperName.getText());		
-			tableFilter.add("S.Fname");
-			tableFilter.add("S.Minit");
-			tableFilter.add("S.Lname");
 		}
 		if(chkBoxDname.isSelected()) {
 			tableHeader.add(chkBoxDname.getText());		
-			tableFilter.add("Dname");
 		}
 		
 		Vector col = new Vector();
@@ -244,7 +219,6 @@ public class List extends JFrame{
 		col.add("select");
 		
 		EmployeeDAO dao = new EmployeeDAO();
-	     //v = dao.getMemberList();
 		v = dao.getList(tableHeader,tables);
 		
 		defaultTableModel = new DefaultTableModel(v, col);
