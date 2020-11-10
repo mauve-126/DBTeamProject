@@ -8,15 +8,15 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 public class EmployeeDAO {
-	private static String dburl = "jdbc:mysql://localhost:3306/dbclass?serverTimezone=UTC";
+	private static String dburl = "jdbc:mysql://localhost:3306/mydb?serverTimezone=UTC";
 	private static String dbUser = "root";
-	private static String dbpasswd = "andrew3876";
+	private static String dbpasswd = "tracer85x1005@";
 	
 	public ArrayList<String> department() {
 		ArrayList<String> department = new ArrayList<String>();
 		department.add("all");
 		try {
-            Class.forName("com.mysql.cj.jdbc.Driver"); //JDBC �뱶�씪�씠踰� �뿰寃�
+            Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -48,25 +48,21 @@ public class EmployeeDAO {
 public Vector getList(ArrayList<String> attributes, ArrayList<String> tables){
 		
 		try {
-            Class.forName("com.mysql.cj.jdbc.Driver"); //JDBC �뱶�씪�씠踰� �뿰寃�
+            Class.forName("com.mysql.cj.jdbc.Driver"); 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 	       
-        Vector data = new Vector();  //Jtable�뿉 媛믪쓣 �돺寃� �꽔�뒗 諛⑸쾿 1. 2李⑥썝諛곗뿴   2. Vector �뿉 vector異붽�
+        Vector data = new Vector();  
        
-        Connection con = null;       //�뿰寃�
-        PreparedStatement ps = null; //紐낅졊
-        ResultSet rs = null;         //寃곌낵
+        Connection con = null;       
+        PreparedStatement ps = null; 
+        ResultSet rs = null;        
        
         try{
         	
         	
 			con = DriverManager.getConnection(dburl, dbUser, dbpasswd);
-//            String sql = "select * from DEPARTMENT d, EMPLOYEE e left outer join EMPLOYEE s on s.ssn = e.super_ssn  where e.dno = d.dnumber";
-//            ps = con.prepareStatement(sql);
-//            rs = ps.executeQuery();
-            
             String all ="select * from DEPARTMENT d, EMPLOYEE e left outer join EMPLOYEE s on s.ssn = e.super_ssn  where e.dno = d.dnumber";
 			String department="select * from DEPARTMENT d, EMPLOYEE e left outer join EMPLOYEE s on s.ssn = e.super_ssn  where e.dno = d.dnumber and d.dname = ?";
 			String sql;
@@ -124,16 +120,16 @@ public Vector getList(ArrayList<String> attributes, ArrayList<String> tables){
 	public Vector getMemberList(){
 		
 		try {
-            Class.forName("com.mysql.cj.jdbc.Driver"); //JDBC �뱶�씪�씠踰� �뿰寃�
+            Class.forName("com.mysql.cj.jdbc.Driver"); 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 	       
-        Vector data = new Vector();  //Jtable�뿉 媛믪쓣 �돺寃� �꽔�뒗 諛⑸쾿 1. 2李⑥썝諛곗뿴   2. Vector �뿉 vector異붽�
+        Vector data = new Vector(); 
        
-        Connection con = null;       //�뿰寃�
-        PreparedStatement ps = null; //紐낅졊
-        ResultSet rs = null;         //寃곌낵
+        Connection con = null;      
+        PreparedStatement ps = null; 
+        ResultSet rs = null;         
        
         try{
         	
@@ -197,7 +193,7 @@ public Vector getList(ArrayList<String> attributes, ArrayList<String> tables){
 	public void Delete(ArrayList<String> ssn) {
 		
 		try {
-            Class.forName("com.mysql.cj.jdbc.Driver"); //JDBC �뱶�씪�씠踰� �뿰寃�
+            Class.forName("com.mysql.cj.jdbc.Driver"); 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -215,9 +211,9 @@ public Vector getList(ArrayList<String> attributes, ArrayList<String> tables){
   	          p2.setString(1, ssn.get(i));
   	          int delr=p2.executeUpdate();
   		      if( delr == 0 ){
-  		          System.out.println("�궘�젣 �븷  �궡�슜�쓣 李얠쓣 �닔 �뾾�뒿�땲�떎.");
+  		          System.out.println("error");
   		      }else{
-  		          System.out.println("�궘�젣 �릺�뿀�뒿�땲�떎.");
+  		          System.out.println("delete");
   		      }
                 }
 
@@ -248,10 +244,10 @@ public void Update(ArrayList<String> ssn, String Salary) {
                 p3.setString(2, ssn.get(i));
                 int up=p3.executeUpdate();
                 if( up > 0 ){
-                    System.out.println("媛깆떊");
+                    System.out.println("update");
                     System.out.println(i);
                 }else{
-                    System.out.println("媛깆떊 遺덇�");
+                    System.out.println("error");
                 }
 
 				

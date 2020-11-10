@@ -55,12 +55,9 @@ public class List extends JFrame{
 	private static JCheckBox chkBoxSalary = new JCheckBox("SALARY", true);
 	private static JCheckBox chkBoxSuperName = new JCheckBox("SUPERVISOR", true);
 	private static JCheckBox chkBoxDname = new JCheckBox("DNAME", true);
-	private static JButton btnSearch = new JButton("寃��깋");
+	private static JButton btnSearch = new JButton("Search");
 	private static JButton btnSort = new JButton("sort");
 	
-//	private static DefaultTableModel defaultTableModel;
-//	private static JTable table;
-//	private static JScrollPane sPane;
 	private static DefaultTableModel defaultTableModel = new DefaultTableModel();
 	private static JTable table = new JTable(defaultTableModel);
 	private static JScrollPane sPane = new JScrollPane(table);
@@ -90,18 +87,13 @@ public class List extends JFrame{
 	
 	
 	public static void main(String[] args) throws SQLException {
-		
-		
-		
-		
-		// Frame �깮�꽦 諛� �꽭�똿
-		//JFrame mainFrame = new JFrame();
+		//메인 패널 생성
 		mainFrame.setTitle("Informational Retrieval System");
 		mainFrame.setSize(1200, 380);
 		mainFrame.setLayout(null);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		// �긽�떒 �뙣�꼸 �깮�꽦
+		// 상단 패널 생성
 		JPanel topPanel = new JPanel();
 		topPanel.setBounds(0, 0, 1200, 40);
 		EmployeeDAO Dao = new EmployeeDAO();
@@ -127,7 +119,7 @@ public class List extends JFrame{
 		
 
 		
-		// �븯�떒 �뙣�꼸 �깮�꽦
+		// 하단 패널 생성
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(null);
 		bottomPanel.setBounds(0, 260, 1200, 100);
@@ -170,6 +162,7 @@ public class List extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				boolean sortBtnClicked=true;
+				mainFrame.remove(sPane);
 				ShowTable(sortBtnClicked);
 			}
 		});
@@ -179,17 +172,15 @@ public class List extends JFrame{
 						mainFrame.remove(sPane);
 						Dao.Update(selected_ssn, tfSalary.getText());
 						ShowTable();
-						//mainFrame.add(sPane);
+						tfSalary.setText("");
 					}
 			}
 		});
-				
-		// 以묒븰 �뜲�씠�꽣酉� �깮�꽦		
+
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent a) {
 				mainFrame.remove(sPane);
 				ShowTable();
-				//mainFrame.add(sPane);
 			}
 			
 		});		
@@ -204,43 +195,30 @@ public class List extends JFrame{
 		selectedname.clear();
 		selected_ssn.clear();
 		ArrayList<String> tableHeader = new ArrayList<String>();
-		ArrayList<String> tableFilter = new ArrayList<String>();
 		
 		if(chkBoxName.isSelected()) {
 			tableHeader.add(chkBoxName.getText());
-			tableFilter.add("E.Fname");
-			tableFilter.add("E.Minit");
-			tableFilter.add("E.Lname");
 		}
 		if(chkBoxSsn.isSelected()) {
 			tableHeader.add(chkBoxSsn.getText());
-			tableFilter.add("E.Ssn");
 		}
 		if(chkBoxBdate.isSelected()) {
 			tableHeader.add(chkBoxBdate.getText());	
-			tableFilter.add("E.Bdate");
 		}
 		if(chkBoxAddress.isSelected()) {
 			tableHeader.add(chkBoxAddress.getText());		
-			tableFilter.add("E.Address");
 		}
 		if(chkBoxSex.isSelected()) {
 			tableHeader.add(chkBoxSex.getText());		
-			tableFilter.add("E.Sex");
 		}
 		if(chkBoxSalary.isSelected()) {
 			tableHeader.add(chkBoxSalary.getText());	
-			tableFilter.add("E.Salary");
 		}
 		if(chkBoxSuperName.isSelected()) {
 			tableHeader.add(chkBoxSuperName.getText());		
-			tableFilter.add("S.Fname");
-			tableFilter.add("S.Minit");
-			tableFilter.add("S.Lname");
 		}
 		if(chkBoxDname.isSelected()) {
 			tableHeader.add(chkBoxDname.getText());		
-			tableFilter.add("Dname");
 		}
 		
 		Vector col = new Vector();
@@ -257,7 +235,6 @@ public class List extends JFrame{
 		col.add("select");
 		
 		EmployeeDAO dao = new EmployeeDAO();
-	     //v = dao.getMemberList();
 		v = dao.getList(tableHeader,tables);
 		
 		defaultTableModel = new DefaultTableModel(v, col);
@@ -282,43 +259,30 @@ public class List extends JFrame{
 		selectedname.clear();
 		selected_ssn.clear();
 		ArrayList<String> tableHeader = new ArrayList<String>();
-		ArrayList<String> tableFilter = new ArrayList<String>();
 		
 		if(chkBoxName.isSelected()) {
 			tableHeader.add(chkBoxName.getText());
-			tableFilter.add("E.Fname");
-			tableFilter.add("E.Minit");
-			tableFilter.add("E.Lname");
 		}
 		if(chkBoxSsn.isSelected()) {
 			tableHeader.add(chkBoxSsn.getText());
-			tableFilter.add("E.Ssn");
 		}
 		if(chkBoxBdate.isSelected()) {
 			tableHeader.add(chkBoxBdate.getText());	
-			tableFilter.add("E.Bdate");
 		}
 		if(chkBoxAddress.isSelected()) {
 			tableHeader.add(chkBoxAddress.getText());		
-			tableFilter.add("E.Address");
 		}
 		if(chkBoxSex.isSelected()) {
 			tableHeader.add(chkBoxSex.getText());		
-			tableFilter.add("E.Sex");
 		}
 		if(chkBoxSalary.isSelected()) {
 			tableHeader.add(chkBoxSalary.getText());	
-			tableFilter.add("E.Salary");
 		}
 		if(chkBoxSuperName.isSelected()) {
 			tableHeader.add(chkBoxSuperName.getText());		
-			tableFilter.add("S.Fname");
-			tableFilter.add("S.Minit");
-			tableFilter.add("S.Lname");
 		}
 		if(chkBoxDname.isSelected()) {
 			tableHeader.add(chkBoxDname.getText());		
-			tableFilter.add("Dname");
 		}
 		
 		Vector col = new Vector();
@@ -335,7 +299,6 @@ public class List extends JFrame{
 		col.add("select");
 		
 		EmployeeDAO dao = new EmployeeDAO();
-	     //v = dao.getMemberList();
 		v = dao.getList(tableHeader,tables);
 		for(int i=0;i<v.size();i++) {
 			System.out.println(v.get(i));
